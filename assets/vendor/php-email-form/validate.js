@@ -7,7 +7,7 @@
 const usernameEl = document.querySelector('#username');
 const emailEl = document.querySelector('#email');
 const messageEl = document.querySelector('#message');
-
+const button = document.getElementById('#button101');
 
 const form = document.querySelector('#signup');
 
@@ -51,7 +51,7 @@ const checkEmail = () => {
 const checkPassword = () => {
     let valid = false;
 
-
+    
     const password = messageEl.value.trim();
 
     if (!isRequired(password)) {
@@ -112,19 +112,34 @@ form.addEventListener('submit', function (e) {
 
     // validate fields
     let isUsernameValid = checkUsername(),
-        isEmailValid = checkEmail(),
-        isPasswordValid = checkPassword(),
-        isConfirmPasswordValid = checkConfirmPassword();
+        isEmailValid = checkEmail();
+        
 
     let isFormValid = isUsernameValid &&
-        isEmailValid &&
-        isPasswordValid &&
-        isConfirmPasswordValid;
+        isEmailValid ;
+        
 
     // submit to the server if the form is valid
     if (isFormValid) {
-
+            $.ajax({
+                url:"https://script.google.com/macros/s/AKfycbwmmGE0IKCCKZ96SPENCiDb88WCLFJzCwXqPpqf/exec",
+                data:$("#signup").serialize(),
+                method:"post",
+                success:function (response){
+                    alert("Form submitted successfully")
+                    window.location.reload()
+                    //window.location.href="https://google.com"
+                },
+                error:function (err){
+                    alert("Something Error")
+    
+                }
+            })
+        
+    }else{
+        alert("insert proper value..!")
     }
+    
 });
 
 
@@ -150,12 +165,10 @@ form.addEventListener('input', debounce(function (e) {
         case 'email':
             checkEmail();
             break;
-        case 'password':
+        case 'message':
             checkPassword();
             break;
-        case 'confirm-password':
-            checkConfirmPassword();
-            break;
+       
     }
 }));
 
